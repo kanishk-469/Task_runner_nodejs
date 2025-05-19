@@ -1,0 +1,96 @@
+## In web application we have following Tasks to perform before sending our app to client side from server
+
+## Tasks
+
+1> minifying CSS
+2> Transforming CSS from Sass
+3> Compressing images (in mobile)
+4> running testcases
+5> Deploying applications
+6> minifying JS using uglifyJS
+7> Text replacement inside file
+so on...
+
+Now a days frameworks or library like REACT, Angular
+these take care for above tasks for us.
+
+In older applications we should do task configuration by
+ourself , meaning minify our CSS or JS code or compress image so on..
+
+## Task runners are library in nodejs which we can use to configure the tasks.
+
+## How does it works?
+
+1> configurations
+2> Libraries and plugins
+We will learn how to configure our taskrunner in nodejs
+for our tasks.
+
+## 1. Using Grunt TASK RUNNER
+
+Setting Up Grunt(TaskRunner in NodeJS)
+TaskRunner tool name called Grunt
+https://gruntjs.com/
+https://www.npmjs.com/package/grunt
+
+Start:-
+npm init for package.json file
+sudo npm i -g grunt-cli
+npm i grunt
+npm install grunt-contrib-uglify --save-dev (we don't want these plugins in product
+ion environment)
+create gruntfile.js and put all your task inside which
+you want to run.
+
+next step to install plugin which you want to run on task
+ex:- 1st task is to minifying JS using grunt uglifyJS plugin
+2nd task is to css minifying,
+
+Grunt task- 1
+gruntfile.js where all my task configurations sits.
+
+EX:Use uglifyJS to minify JS, check put documention of grunt
+module.exports = function(grunt) {
+
+// Project configuration.
+grunt.initConfig({
+pkg: grunt.file.readJSON('package.json'),
+uglify: {
+options: {
+banner: '/_! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> _/ /\*\n'
+},
+build: {
+src: 'src/<%= pkg.name %>.js',
+dest: 'build/<%= pkg.name %>.min.js'
+}
+}
+});
+
+    // Load the plugin that provides the "uglify" task.
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+
+    // Default task(s)., register the tasks
+    grunt.registerTask('default', ['uglify']);
+
+};
+On Integrated VS Code Terminal: grunt
+
+Grunt Task - 2
+minifying CSS using cssmin plugin, but in different way
+refer docs:- https://www.npmjs.com/package/grunt-contrib-cssmin
+npm i grunt-contrib-cssmin --save-dev plugins
+
+ex:- Minify all contents of a release directory and add a .min.css extension
+cssmin: {
+target: {
+files: [{
+expand: true, ///it help grunt to manage the path
+cwd: 'release/css',
+src: ['*.css', '!*.min.css'],
+dest: 'release/css',
+ext: '.min.css'
+}]
+}
+}
+
+## 2. Using GULP TASK RUNNER we can minify our css , js , images etc
